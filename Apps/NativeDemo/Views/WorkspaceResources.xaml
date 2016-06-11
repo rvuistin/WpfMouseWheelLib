@@ -1,0 +1,529 @@
+﻿<ResourceDictionary
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+  <Style x:Key="IndentedStyle" TargetType="{x:Type FrameworkElement}">
+    <Setter Property="Margin" Value="8,0" />
+  </Style>
+  <Style x:Key="StickerStyle" TargetType="{x:Type TextBlock}">
+    <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+    <Setter Property="Foreground" Value="Magenta"/>
+    <Setter Property="FontSize" Value="32"/>
+    <Setter Property="Opacity" Value="0.5"/>
+    <Setter Property="IsHitTestVisible" Value="False"/>
+    <Setter Property="HorizontalAlignment" Value="Center"/>
+    <Setter Property="VerticalAlignment" Value="Center"/>
+    <Setter Property="RenderTransform">
+      <Setter.Value>
+        <RotateTransform Angle="-45"/>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  
+  <ItemsPanelTemplate x:Key="HorizontalPanelTemplate" x:Shared="False">
+    <VirtualizingStackPanel Orientation="Horizontal" />
+  </ItemsPanelTemplate>
+
+  <sys:String x:Key="TextBoxClass" xml:space="preserve">TextBox Class
+Represents a control that can be used to display or edit unformatted text.
+
+Remarks
+A TextBox control can contain only unformatted text in its Text property. The following graphic shows an example of a TextBox.
+
+Example of a TextBox
+  .
+  .
+  .
+TextBox is a composite control that that is composed of several encapsulated components. Consequently, some events do not bubble up to the containing control
+because they are handled by encapsulated child elements. Because of this, application developers should listen for the tunneling version of an event (denoted
+by the prefix "Preview").
+
+TextBox supports unformatted text only. For applications that require support for richer content, see RichTextBox. For applications that need to accept passwords
+or other sensitive input, see PasswordBox.
+
+Horizontally and vertically aligning text within a TextBox is done with the HorizontalContentAlignment and VerticalContentAlignment properties. Aligning the
+TextBox within the layout of the page is done with the HorizontalAlignment and VerticalAlignment properties.
+
+The best way to hide the border around a TextBox is to set the BorderThickness property of the TextBox to 0.
+
+Important
+TextBox has built-in handling for the bubbling  MouseUp and MouseDown events. Consequently, custom event handlers that listen for MouseUp or MouseDown events from
+a TextBox will not be called. If you need to respond to these events, listen for the tunneling PreviewMouseUp and PreviewMouseDown events instead, or register the
+handlers with the HandledEventsToo argument (this latter option is only available through code). Do not mark the event handled unless you deliberately want to
+disable TextBox native handling of these events, and be aware that this has notable effects on the control's UI.
+Scrollbars are not visible on a TextBox by default. To make scrollbars visible, set the VerticalScrollBarVisibility and HorizontalScrollBarVisibility properties to
+Visible or Auto.
+
+Usually the TextChanged event should be used to detect whenever the text in a TextBox or RichTextBox changes rather then KeyDown as you might expect. See How to:
+Detect When Text in a TextBox Has Changed for an example.
+
+Customizing the TextBox Control
+To apply the same property settings to multiple TextBox controls, use the Style property. You can modify the default ControlTemplate to give the control a unique
+appearance. For more information about creating a ControlTemplate, see Customizing the Appearance of an Existing Control by Creating a ControlTemplate. To see the
+parts and states that are specific to the TextBox, see TextBox Styles and Templates.
+
+Dependency properties for this control might be set by the control’s default style. If a property is set by a default style, the property might change from its
+default value when the control appears in the application. The default style is determined by which desktop theme is used when the application is running. For more
+information, see Default WPF Themes.
+
+Note
+Setting a visual property will only have an effect if that property is both present in TextBox control's default template and is set by using a TemplateBinding.
+You can find a list of visual properties in the "Changing the Visual Structure of a Control" section in Customizing the Appearance of an Existing Control by
+Creating a ControlTemplate.
+        
+Examples
+This example shows how to use the Text property to set the initial text contents of a TextBox control.
+
+Note
+Although the Extensible Application Markup Language (XAML) version of the example could use the &lt;TextBox.Text&gt; tags around the text of each button's TextBox
+content, it is not necessary because the TextBox applies the ContentPropertyAttribute attribute to the Text property. For more information, see XAML Overview (WPF).</sys:String>
+
+  <!--=============================LEVEL 0 ELEMENTS=============================-->
+
+  <!-- Image -->
+  <Grid x:Key="L0-Image" x:Shared="False">
+    <ScrollViewer
+      Background="{StaticResource PhysicalModeBrush}"
+      VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" 
+      MaxHeight="400" MaxWidth="600">
+      <Image Source="/Resources/Hydrangeas.jpg" />
+    </ScrollViewer>
+    <TextBlock Text="Image" Style="{StaticResource StickerStyle}"/>
+  </Grid>
+
+  <!-- ItemsControl -->
+  <Grid x:Key="L0-ItemsControl" x:Shared="False">
+    <ScrollViewer
+      Background="{StaticResource PhysicalModeBrush}"
+      VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+      MaxHeight="400" MaxWidth="600">
+      <ItemsControl
+        ItemsSource="{Binding}" />
+    </ScrollViewer>
+    <TextBlock Text="ItemsControl" Style="{StaticResource StickerStyle}"/>
+  </Grid>
+
+  <!-- Horizontal ItemsControl -->
+  <Grid x:Key="L0H-ItemsControl" x:Shared="False">
+    <ScrollViewer
+      Background="{StaticResource PhysicalModeBrush}"
+      VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+      <ItemsControl
+        ItemsPanel="{StaticResource HorizontalPanelTemplate}"
+        ItemContainerStyle="{StaticResource IndentedStyle}"
+        ItemsSource="{Binding}">
+      </ItemsControl>
+    </ScrollViewer>
+    <TextBlock Text="ItemsControl" Style="{StaticResource StickerStyle}"/>
+  </Grid>
+
+  <!-- ListBox -->
+  <Grid x:Key="L0-ListBox" x:Shared="False">
+    <ListBox
+      Background="{StaticResource LogicalModeBrush}"
+      MaxHeight="400" MaxWidth="600"
+      ItemsSource="{Binding}" />
+    <TextBlock Text="ListBox" Style="{StaticResource StickerStyle}"/>
+  </Grid>
+
+  <!-- Horizontal ListBox -->
+  <Grid x:Key="L0H-ListBox" x:Shared="False">
+    <ListBox
+      Background="{StaticResource LogicalModeBrush}"
+      ItemsPanel="{StaticResource HorizontalPanelTemplate}"
+      ItemContainerStyle="{StaticResource IndentedStyle}"
+      ItemsSource="{Binding}">
+    </ListBox>
+    <TextBlock Text="ListBox" Style="{StaticResource StickerStyle}"/>
+  </Grid>
+
+  <!-- ListView -->
+  <Grid x:Key="L0-ListView" x:Shared="False">
+    <ListView
+      Background="{StaticResource LogicalModeBrush}"
+      ItemsSource="{Binding}">
+      <ListView.View>
+        <GridView>
+          <GridViewColumn Header="#"     CellTemplate="{StaticResource ItemIndexTemplate}" />
+          <GridViewColumn Header="Value" CellTemplate="{StaticResource ItemValueTemplate}" />
+        </GridView>
+      </ListView.View>
+    </ListView>
+    <TextBlock Text="ListView" Style="{StaticResource StickerStyle}"/>
+  </Grid>
+
+  <!-- DataGrid -->
+  <Grid x:Key="L0-DataGrid" x:Shared="False">
+    <DataGrid
+      RowBackground="{StaticResource LogicalModeBrush}"
+      AutoGenerateColumns="False" CanUserSortColumns="False" CanUserDeleteRows="False"
+      EnableRowVirtualization="True" EnableColumnVirtualization="True"
+      ItemsSource="{Binding}">
+      <DataGrid.Columns>
+        <DataGridTemplateColumn Header="#"     CellTemplate="{StaticResource ItemIndexTemplate}" />
+        <DataGridTemplateColumn Header="Value" CellTemplate="{StaticResource ItemValueTemplate}" />
+      </DataGrid.Columns>
+    </DataGrid>
+    <TextBlock Text="DataGrid" Style="{StaticResource StickerStyle}"/>
+  </Grid>
+
+  <!-- ComboBox -->
+  <ComboBox
+    x:Key="L0-ComboBox" x:Shared="False"
+    Background="{StaticResource LogicalModeBrush}"
+    VerticalAlignment="Top" IsSynchronizedWithCurrentItem="True" SelectedIndex="0"
+    ItemsSource="{Binding}">
+    <ComboBox.ItemsPanel>
+      <ItemsPanelTemplate>
+        <VirtualizingStackPanel
+          Background="{StaticResource LogicalModeBrush}"
+          MaxWidth="500" CanHorizontallyScroll="True" CanVerticallyScroll="True" />
+      </ItemsPanelTemplate>
+    </ComboBox.ItemsPanel>
+  </ComboBox>
+
+  <!-- FlowDocument -->
+  <FlowDocument x:Key="L0-FlowDocument" x:Shared="False" Background="{StaticResource PhysicalModeBrush}">
+    <Paragraph FontSize="18">Flow Document Example</Paragraph>
+
+    <Paragraph>
+      Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy 
+      nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi 
+      enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis 
+      nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure.
+    </Paragraph>
+    <Paragraph>
+      Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh 
+      euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim 
+      ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl 
+      ut aliquip ex ea commodo consequat. Duis autem vel eum iriure.
+    </Paragraph>
+
+    <Paragraph FontSize="18">More flow elements</Paragraph>
+    <Paragraph FontSize="15">Inline, font type and weight, and a List</Paragraph>
+
+    <List>
+      <ListItem>
+        <Paragraph>ListItem 1</Paragraph>
+      </ListItem>
+      <ListItem>
+        <Paragraph>ListItem 2</Paragraph>
+      </ListItem>
+      <ListItem>
+        <Paragraph>ListItem 3</Paragraph>
+      </ListItem>
+      <ListItem>
+        <Paragraph>ListItem 4</Paragraph>
+      </ListItem>
+      <ListItem>
+        <Paragraph>ListItem 5</Paragraph>
+      </ListItem>
+    </List>
+
+    <Paragraph>
+      <Bold>Bolded</Bold>
+    </Paragraph>
+    <Paragraph>
+      <Underline>Underlined</Underline>
+    </Paragraph>
+    <Paragraph>
+      <Bold>
+        <Underline>Bolded and Underlined</Underline>
+      </Bold>
+    </Paragraph>
+    <Paragraph>
+      <Italic>Italic</Italic>
+    </Paragraph>
+
+    <Paragraph>
+      <Span>The Span element, no inherent rendering</Span>
+    </Paragraph>
+    <Paragraph>
+      <Run>The Run element, no inherent rendering</Run>
+    </Paragraph>
+
+    <Paragraph FontSize="15">Subscript, Superscript</Paragraph>
+
+    <Paragraph>
+      <Run Typography.Variants="Superscript">This text is Superscripted.</Run> This text isn't.
+    </Paragraph>
+    <Paragraph>
+      <Run Typography.Variants="Subscript">This text is Subscripted.</Run> This text isn't.
+    </Paragraph>
+    <Paragraph>
+      If a font does not support a particular form (such as Superscript) a default font form will be displayed.
+    </Paragraph>
+
+    <Paragraph FontSize="15">Blocks, breaks, paragraph</Paragraph>
+
+    <Section>
+      <Paragraph>A block section of text</Paragraph>
+    </Section>
+    <Section>
+      <Paragraph>Another block section of text</Paragraph>
+    </Section>
+
+    <Paragraph>
+      <LineBreak/>
+    </Paragraph>
+    <Section>
+      <Paragraph>... and another section, preceded by a LineBreak</Paragraph>
+    </Section>
+
+    <Section BreakPageBefore="True"/>
+    <Section>
+      <Paragraph>... and another section, preceded by a PageBreak</Paragraph>
+    </Section>
+
+    <Paragraph>Finally, a paragraph. Note the break between this paragraph ...</Paragraph>
+    <Paragraph TextIndent="25">... and this paragraph, and also the left indention.</Paragraph>
+
+    <Paragraph>
+      <LineBreak/>
+    </Paragraph>
+  </FlowDocument>
+
+  <!-- FlowDocumentScrollViewer -->
+  <Grid x:Key="L0-FlowDocumentScrollViewer" x:Shared="False">
+    <FlowDocumentScrollViewer
+      Background="{StaticResource PhysicalModeBrush}"
+      MaxHeight="400" MaxWidth="600"
+      Document="{StaticResource L0-FlowDocument}"/>
+    <TextBlock Text="FlowDocumentScrollViewer" Style="{StaticResource StickerStyle}"/>
+  </Grid>
+
+  <!-- FlowDocumentPageViewer -->
+  <Grid x:Key="L0-FlowDocumentPageViewer" x:Shared="False">
+    <FlowDocumentPageViewer
+      Background="{StaticResource PhysicalModeBrush}"
+      MaxHeight="400" MaxWidth="600"
+      Document="{StaticResource L0-FlowDocument}"/>
+    <TextBlock Text="FlowDocumentPageViewer" Style="{StaticResource StickerStyle}"/>
+  </Grid>
+
+  <!-- TextBox -->
+  <Grid x:Key="L0-TextBox" x:Shared="False">
+    <TextBox
+      Background="{StaticResource TextBoxBaseBrush}"
+      FontSize="18"
+      VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+      AcceptsReturn="True" IsUndoEnabled="True"
+      MaxHeight="400" MaxWidth="600"
+      Text="{StaticResource TextBoxClass}"/>
+    <TextBlock Text="TextBox" Style="{StaticResource StickerStyle}"/>
+  </Grid>
+
+  <!-- RichTextBox -->
+  <Grid x:Key="L0-RichTextBox" x:Shared="False">
+    <RichTextBox
+      Background="{StaticResource TextBoxBaseBrush}"
+      VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+      AcceptsReturn="True" IsUndoEnabled="True"
+      MaxHeight="400" MaxWidth="600"
+      Document="{StaticResource L0-FlowDocument}"/>
+    <TextBlock Text="RichTextBox" Style="{StaticResource StickerStyle}"/>
+  </Grid>
+
+  <!--=============================LEVEL 1 ELEMENTS=============================-->
+
+  
+  <!-- ItemsControl -->
+  <ScrollViewer
+    x:Key="L1-ItemsControl" x:Shared="False"
+    Background="{StaticResource PhysicalModeLightBrush}"
+    VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+    <ItemsControl>
+      <ContentPresenter Margin="32" Content="{StaticResource L0-Image}" />
+      <ContentPresenter Margin="32" Content="{StaticResource L0-ItemsControl}" />
+      <ContentPresenter Margin="32" Content="{StaticResource L0-ListBox}" />
+      <ContentPresenter Margin="32" Content="{StaticResource L0-FlowDocumentPageViewer}" />
+      <ContentPresenter Margin="32" Content="{StaticResource L0-TextBox}" />
+      <ContentPresenter Margin="32" Content="{StaticResource L0-RichTextBox}" />
+    </ItemsControl>
+  </ScrollViewer>
+
+  <!-- Horizontal ItemsControl -->
+  <ScrollViewer
+    x:Key="L1H-ItemsControl" x:Shared="False"
+    Background="{StaticResource PhysicalModeLightBrush}"
+    VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+    <ItemsControl>
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <VirtualizingStackPanel Orientation="Horizontal" />
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+      <ContentPresenter Margin="32" Content="{StaticResource L0-Image}" />
+      <ContentPresenter Margin="32" Content="{StaticResource L0-ItemsControl}" />
+      <ContentPresenter Margin="32" Content="{StaticResource L0-ListBox}" />
+      <ContentPresenter Margin="32" Content="{StaticResource L0-FlowDocumentPageViewer}" />
+      <ContentPresenter Margin="32" Content="{StaticResource L0-TextBox}" />
+      <ContentPresenter Margin="32" Content="{StaticResource L0-RichTextBox}" />
+    </ItemsControl>
+  </ScrollViewer>
+
+  <!-- ListBox -->
+  <ListBox
+    x:Key="L1-ListBox" x:Shared="False"
+    Background="{StaticResource LogicalModeLightBrush}">
+    <ListBoxItem Padding="32" Content="{StaticResource L0-Image}" />
+    <ListBoxItem Padding="32" Content="{StaticResource L0-ItemsControl}" />
+    <ListBoxItem Padding="32" Content="{StaticResource L0-ListBox}" />
+    <ListBoxItem Padding="32" Content="{StaticResource L0-FlowDocumentPageViewer}" />
+    <ListBoxItem Padding="32" Content="{StaticResource L0-TextBox}" />
+    <ListBoxItem Padding="32" Content="{StaticResource L0-RichTextBox}" />
+  </ListBox>
+
+  <!-- Horizontal ListBox -->
+  <ListBox
+    x:Key="L1H-ListBox" x:Shared="False"
+    Background="{StaticResource LogicalModeLightBrush}">
+    <ListBox.ItemsPanel>
+      <ItemsPanelTemplate>
+        <VirtualizingStackPanel Orientation="Horizontal" />
+      </ItemsPanelTemplate>
+    </ListBox.ItemsPanel>
+    <ListBoxItem Padding="32" Content="{StaticResource L0-Image}" />
+    <ListBoxItem Padding="32" Content="{StaticResource L0-ItemsControl}" />
+    <ListBoxItem Padding="32" Content="{StaticResource L0-ListBox}" />
+    <ListBoxItem Padding="32" Content="{StaticResource L0-FlowDocumentPageViewer}" />
+    <ListBoxItem Padding="32" Content="{StaticResource L0-TextBox}" />
+    <ListBoxItem Padding="32" Content="{StaticResource L0-RichTextBox}" />
+  </ListBox>
+
+  <!-- FlowDocument -->
+  <FlowDocument
+    x:Key="L1-FlowDocument" x:Shared="False" Background="{StaticResource PhysicalModeBrush}">
+    <Paragraph FontSize="18">Flow Document Example</Paragraph>
+
+    <Paragraph>
+      Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy 
+      nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi 
+      enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis 
+      nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure.
+    </Paragraph>
+    <Paragraph>
+      Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh 
+      euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim 
+      ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl 
+      ut aliquip ex ea commodo consequat. Duis autem vel eum iriure.
+    </Paragraph>
+
+    <Paragraph FontSize="18">Nested UI with scrolling areas</Paragraph>
+
+    <BlockUIContainer>
+      <Border BorderBrush="CornflowerBlue" BorderThickness="4">
+        <ContentPresenter Content="{StaticResource L1-ItemsControl}" />
+      </Border>
+    </BlockUIContainer>
+
+    <Paragraph FontSize="18">Nested Flow Document</Paragraph>
+
+    <BlockUIContainer>
+      <Border BorderBrush="Cyan" BorderThickness="4">
+        <ContentPresenter Content="{StaticResource L0-FlowDocument}" />
+        <!--<FlowDocumentPageViewer Document="{StaticResource FlowDocument}"/>-->
+      </Border>
+    </BlockUIContainer>
+
+    <Paragraph FontSize="18">More flow elements</Paragraph>
+    <Paragraph FontSize="15">Inline, font type and weight, and a List</Paragraph>
+
+    <List>
+      <ListItem> <Paragraph>ListItem 1</Paragraph> </ListItem>
+      <ListItem> <Paragraph>ListItem 2</Paragraph> </ListItem>
+      <ListItem> <Paragraph>ListItem 3</Paragraph> </ListItem>
+      <ListItem> <Paragraph>ListItem 4</Paragraph> </ListItem>
+      <ListItem> <Paragraph>ListItem 5</Paragraph> </ListItem>
+    </List>
+
+    <Paragraph> <Bold>Bolded</Bold> </Paragraph>
+    <Paragraph> <Underline>Underlined</Underline> </Paragraph>
+    <Paragraph> <Bold> <Underline>Bolded and Underlined</Underline> </Bold> </Paragraph>
+    <Paragraph> <Italic>Italic</Italic> </Paragraph>
+
+    <Paragraph> <Span>The Span element, no inherent rendering</Span> </Paragraph>
+    <Paragraph> <Run>The Run element, no inherent rendering</Run> </Paragraph>
+
+    <Paragraph FontSize="15">Subscript, Superscript</Paragraph>
+
+    <Paragraph>
+      <Run Typography.Variants="Superscript">This text is Superscripted.</Run> This text isn't.
+    </Paragraph>
+    <Paragraph>
+      <Run Typography.Variants="Subscript">This text is Subscripted.</Run> This text isn't.
+    </Paragraph>
+    <Paragraph>
+      If a font does not support a particular form (such as Superscript) a default font form will be displayed.
+    </Paragraph>
+
+    <Paragraph FontSize="15">Blocks, breaks, paragraph</Paragraph>
+
+    <Section> <Paragraph>A block section of text</Paragraph> </Section>
+    <Section> <Paragraph>Another block section of text</Paragraph> </Section>
+
+    <Paragraph> <LineBreak/> </Paragraph>
+    <Section> <Paragraph>... and another section, preceded by a LineBreak</Paragraph> </Section>
+
+    <Section BreakPageBefore="True"/>
+    <Section> <Paragraph>... and another section, preceded by a PageBreak</Paragraph> </Section>
+
+    <Paragraph>Finally, a paragraph. Note the break between this paragraph ...</Paragraph>
+    <Paragraph TextIndent="25">... and this paragraph, and also the left indention.</Paragraph>
+
+    <Paragraph> <LineBreak/> </Paragraph>
+  </FlowDocument>
+  
+  <!-- FlowDocument - Zoom -->
+  <FlowDocument
+    x:Key="L1Z-FlowDocument" x:Shared="False">
+
+    <BlockUIContainer>
+      <Border BorderBrush="Cyan" BorderThickness="4">
+        <ContentPresenter Content="{StaticResource L0-FlowDocument}" />
+      </Border>
+    </BlockUIContainer>
+
+    <Paragraph>
+      Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy 
+      nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi 
+      enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis 
+      nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure.
+    </Paragraph>
+  </FlowDocument>
+  
+  <!-- FlowDocumentScrollViewer -->
+  <FlowDocumentScrollViewer
+    x:Key="L1-FlowDocumentScrollViewer" x:Shared="False"
+    Background="{StaticResource PhysicalModeBrush}"
+    Document="{StaticResource L1-FlowDocument}"/>
+
+  <!-- FlowDocumentPageViewer -->
+  <FlowDocumentPageViewer
+    x:Key="L1-FlowDocumentPageViewer" x:Shared="False"
+    Background="{StaticResource PhysicalModeBrush}"
+    Document="{StaticResource L1-FlowDocument}"/>
+
+  <!-- FlowDocumentScrollViewer - Zoom -->
+  <FlowDocumentScrollViewer
+    x:Key="L1Z-FlowDocumentScrollViewer" x:Shared="False"
+    Background="{StaticResource PhysicalModeBrush}"
+    Document="{StaticResource L1Z-FlowDocument}"/>
+
+  <!-- FlowDocumentPageViewer - Zoom -->
+  <FlowDocumentPageViewer
+    x:Key="L1Z-FlowDocumentPageViewer" x:Shared="False"
+    Background="{StaticResource PhysicalModeBrush}"
+    Document="{StaticResource L1Z-FlowDocument}"/>
+
+  <!-- RichTextBox -->
+  <RichTextBox
+    x:Key="L1-RichTextBox" x:Shared="False"
+    Background="{StaticResource TextBoxBaseBrush}"
+    VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+    AcceptsReturn="True" IsUndoEnabled="True"
+    MaxHeight="400" MaxWidth="600"
+    Document="{StaticResource L1-FlowDocument}"/>
+
+</ResourceDictionary>

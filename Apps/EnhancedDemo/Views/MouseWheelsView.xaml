@@ -1,0 +1,185 @@
+﻿<!-- DataContext : IEnumerable<MouseWheel> -->
+
+<UserControl
+  x:Class="Lada.WpfMouseWheel.Views.MouseWheelsView"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+  xmlns:i="clr-namespace:Lada.Windows.Input;assembly=WpfMouseWheelLib"
+  mc:Ignorable="d" 
+  d:DesignHeight="300" d:DesignWidth="300">
+
+  <UserControl.Resources>
+    <RadialGradientBrush x:Key="RadialLightGray" GradientOrigin="0.5,0.2">
+      <GradientStop Color="White" Offset="0.0" />
+      <GradientStop Color ="LightGray" Offset="1.0" />
+    </RadialGradientBrush>
+    <RadialGradientBrush x:Key="RadialRed" GradientOrigin="0.5,0.2">
+      <GradientStop Color="White" Offset="0.0" />
+      <GradientStop Color ="Red" Offset="1.0" />
+    </RadialGradientBrush>
+    <RadialGradientBrush x:Key="RadialOrange" GradientOrigin="0.5,0.2">
+      <GradientStop Color="White" Offset="0.0" />
+      <GradientStop Color ="Orange" Offset="1.0" />
+    </RadialGradientBrush>
+    <RadialGradientBrush x:Key="RadialGreen" GradientOrigin="0.5,0.2">
+      <GradientStop Color="White" Offset="0.0" />
+      <GradientStop Color ="Green" Offset="1.0" />
+    </RadialGradientBrush>
+
+    <Style TargetType="{x:Type TextBlock}">
+      <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+    <Style x:Key="ResolutionStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+      <Setter Property="Text" Value="{Binding Path=Resolution}" />
+      <!--<Style.Triggers>
+        <DataTrigger Binding="{Binding Path=Motion}" Value="{x:Null}">
+          <Setter Property="Text" Value="N/A" />
+          <Setter Property="FontSize" Value="9" />
+        </DataTrigger>
+      </Style.Triggers>-->
+    </Style>
+    <Style x:Key="SnappingStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+      <Setter Property="Text" Value="OFF" />
+      <Setter Property="Foreground" Value="DarkGreen" />
+      <Style.Triggers>
+        <DataTrigger Binding="{Binding Path=Snapping}" Value="True">
+          <Setter Property="Text" Value="ON" />
+          <Setter Property="Foreground" Value="DarkRed" />
+        </DataTrigger>
+      </Style.Triggers>
+    </Style>
+    <Style x:Key="SnappedStyle" TargetType="Ellipse">
+      <Setter Property="Fill" Value="{StaticResource RadialLightGray}" />
+      <Setter Property="HorizontalAlignment" Value="Left" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="Width" Value="12" />
+      <Setter Property="Height" Value="12" />
+      <Style.Triggers>
+        <DataTrigger Binding="{Binding Path=SnapEnabled}" Value="True">
+          <Setter Property="Fill" Value="{StaticResource RadialOrange}" />
+        </DataTrigger>
+        <DataTrigger Binding="{Binding Path=SnapEnabled}" Value="False">
+          <Setter Property="Fill" Value="{StaticResource RadialLightGray}" />
+        </DataTrigger>
+        <DataTrigger Binding="{Binding Path=Snapped}" Value="True">
+          <Setter Property="Fill" Value="{StaticResource RadialGreen}" />
+        </DataTrigger>
+      </Style.Triggers>
+    </Style>
+    <!--<Style x:Key="SnappedToNotchStyle" TargetType="Ellipse">
+      <Setter Property="Fill" Value="{StaticResource RadialOrange}" />
+      <Style.Triggers>
+        <DataTrigger Binding="{Binding Path=SnappedToNotch}" Value="True">
+          <Setter Property="Fill" Value="{StaticResource RadialGreen}" />
+        </DataTrigger>
+      </Style.Triggers>
+    </Style>-->
+
+    <!--<DataTemplate DataType="{x:Type i:MouseWheelRatchet}">
+      <Grid>
+        <Ellipse Width="12" Height="12" Style="{StaticResource SnappedToNotchStyle}"/>
+        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding NotchResolution}" FontSize="10" />
+      </Grid>
+    </DataTemplate>-->
+    <!-- Mouse Wheel Template -->
+    <DataTemplate DataType="{x:Type i:MouseWheel}">
+      <Expander IsExpanded="True">
+        <!-- Name -->
+        <Expander.Header>
+          <ContentControl>
+            <ContentControl.Style>
+              <Style TargetType="{x:Type ContentControl}">
+                <Setter Property="Content">
+                  <Setter.Value>
+                    <TextBlock FontWeight="Bold" Text="{Binding Name}" />
+                  </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Expander}}, Path=IsExpanded}" Value="False" >
+                    <Setter Property="Content">
+                      <!--<Setter.Value>
+                        <StackPanel Orientation="Horizontal">
+                          <TextBlock FontWeight="Bold" Text="{Binding Name}" />
+                          <TextBlock Margin="2,0" Text="(" />
+                          <TextBlock Margin="2,0" Style="{StaticResource ResolutionModeStyle}" />
+                          <TextBlock Margin="2,0" Style="{StaticResource ResolutionDeltaStyle}" />
+                          <TextBlock Margin="2,0" Style="{StaticResource SnappingStyle}" />
+                          <Ellipse   Margin="2,0" Style="{StaticResource SnappedStyle}" />
+                          <TextBlock Margin="2,0" Text=")" />
+                        </StackPanel>
+                      </Setter.Value>-->
+                      <Setter.Value>
+                        <StackPanel Orientation="Horizontal">
+                          <TextBlock FontWeight="Bold" Text="{Binding Name}" />
+                          <TextBlock Margin="2,0" Text="(" />
+                          <TextBlock Margin="2,0" Style="{StaticResource ResolutionStyle}" />
+                          <!--<Ellipse   Margin="2,0" Style="{StaticResource SnappedToNotchStyle}" />-->
+                          <TextBlock Margin="2,0" Text=")" />
+                        </StackPanel>
+                      </Setter.Value>
+                    </Setter>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </ContentControl.Style>
+          </ContentControl>
+        </Expander.Header>
+        
+        <!-- Properties -->
+        <Grid Margin="20,0,0,2">
+          <Grid.Resources>
+            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+              <Setter Property="Margin" Value="0,2,8,2"/>
+            </Style>
+          </Grid.Resources>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <!--<RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />-->
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <!-- Resolution Mode -->
+          <!--<TextBlock Grid.Row="0" Text="Resolution Mode" />
+          <TextBlock Grid.Column="1" Grid.Row="0" Style="{StaticResource ResolutionModeStyle}" />-->
+          <!-- Resolution Delta -->
+          <!--<TextBlock Grid.Row="1" Text="Resolution Delta" />
+          <TextBlock Grid.Column="1" Grid.Row="1" Style="{StaticResource ResolutionDeltaStyle}" />-->
+          <!-- Resolution -->
+          <TextBlock Grid.Row="0" Text="Resolution" />
+          <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource ResolutionStyle}" />
+          <!-- Snapped to Notch -->
+          <!--<TextBlock Grid.Row="1" Text="Snapped to Notch" />-->
+          <!--<ItemsControl Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Ratchets}">
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <StackPanel Orientation="Horizontal" />
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.Style>
+              <Style TargetType="{x:Type ItemsControl}">
+                <Setter Property="Visibility" Value="Visible"/>
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding Ratchets}" Value="{x:Null}">
+                    <Setter Property="Visibility" Value="Hidden"/>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </ItemsControl.Style>
+          </ItemsControl>-->
+          <!-- Snapping -->
+          <!--<TextBlock Grid.Row="2" Text="Snapping" />
+          <TextBlock Grid.Column="1" Grid.Row="2" Style="{StaticResource SnappingStyle}"/>-->
+        </Grid>
+      </Expander>
+    </DataTemplate>
+  </UserControl.Resources>
+
+  <ItemsControl ItemsSource="{Binding}" />
+  
+</UserControl>

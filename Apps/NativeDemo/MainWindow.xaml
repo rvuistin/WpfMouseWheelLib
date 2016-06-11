@@ -1,0 +1,10 @@
+﻿<Window
+  x:Class="Lada.WpfMouseWheel.MainWindow"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:vw="clr-namespace:Lada.WpfMouseWheel.Views"
+  Title="WPF Mouse Wheel - Native" Height="800" Width="500">
+
+  <vw:WorkspaceView />
+
+</Window>

@@ -1,0 +1,24 @@
+﻿<!-- DataConstext : ScrollModeOptions -->
+
+<UserControl
+  x:Class="Lada.WpfMouseWheel.Views.ScrollModeOptionsView"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+  xmlns:vw="clr-namespace:Lada.WpfMouseWheel.Views"
+  mc:Ignorable="d" 
+  d:DesignHeight="300" d:DesignWidth="300">
+  <DockPanel>
+    <GroupBox DockPanel.Dock="Top" Header="Scroll Debouncing">
+      <StackPanel Orientation="Horizontal">
+        <RadioButton Margin="8" Content="Auto"   IsChecked="{Binding Debouncing, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Auto}" />
+        <RadioButton Margin="8" Content="Single" IsChecked="{Binding Debouncing, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Single}" />
+        <RadioButton Margin="8" Content="None"   IsChecked="{Binding Debouncing, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=None}" />
+      </StackPanel>
+    </GroupBox>
+    <GroupBox DockPanel.Dock="Top" Header="Scroll Increment">
+      <vw:ScrollIncrementSelectorView Margin="8" DataContext="{Binding ScrollIncrementSelector}"/>
+    </GroupBox>
+  </DockPanel>
+</UserControl>
