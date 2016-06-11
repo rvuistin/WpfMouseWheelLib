@@ -13,7 +13,7 @@ namespace Lada.Windows.Input
     public class MouseWheelInputEventArgs : MouseWheelEventArgs
     {
         public                          MouseWheelInputEventArgs(IMouseWheelController controller, MouseWheel wheel, int timestamp, int delta, Orientation orientation)
-          : base (wheel.MouseDevice, timestamp, delta)
+          : base (wheel.MouseDevice, Math.Max(0, timestamp), delta)
         {
             Controller  = controller;
             Wheel       = wheel;
