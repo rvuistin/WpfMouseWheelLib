@@ -39,7 +39,7 @@ namespace Lada.Windows.Input
         public void                     EndCommand()
         {
             if (Handled)
-                Controller.ExitElement.RaiseEvent (CreateNativeEventArgs (Timestamp, Delta));
+                Controller.ExitElement?.RaiseEvent (CreateNativeEventArgs (Timestamp, Delta));
             else
                 Handled = Wheel.Transfer (MouseWheelNativeMotionTarget.Current, this);
         }
