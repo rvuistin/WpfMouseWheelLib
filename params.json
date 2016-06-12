@@ -1,6 +1,6 @@
 {
   "name": "WPF Mouse Wheel Library",
-  "tagline": "WPF, Mouse, Wheel, MouseWheel, Scroll, Smooth",
-  "body": "# Improving WPF Mouse Wheel Processing\r\nHow to quickly improve your WPF application to give your users a pleasant mouse wheel experience\r\n\r\n[See article on Code Project](http://www.codeproject.com/Articles/220255/Improving-WPF-Mouse-Wheel-Processing)\r\n",
+  "tagline": "How to quickly improve your WPF application to give your users a pleasant mouse wheel experience",
+  "body": "For more information please see [**Improving WPF Mouse Wheel Processing**](http://www.codeproject.com/Articles/220255/Improving-WPF-Mouse-Wheel-Processing)  article on Code Project\r\n",
   "note": "Don't delete this file! It's used internally to help with page regeneration."
 }
