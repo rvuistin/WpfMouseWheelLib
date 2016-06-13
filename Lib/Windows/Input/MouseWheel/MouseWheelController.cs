@@ -209,9 +209,9 @@ namespace Lada.Windows.Input
                     {
                         var timestamp = Environment.TickCount;
                         var originalSource = Mouse.DirectlyOver;
-                        var delta = wParam.ToInt32 () >> 16;
-                        var ie = new MouseWheelInputEventArgs (this, MouseWheel.Current, timestamp, -delta, Orientation.Horizontal);
-                        OnPreviewMouseWheel (originalSource, ie);
+                        var delta = (short)unchecked((uint)(long)wParam >> 16);
+                        var ie = new MouseWheelInputEventArgs(this, MouseWheel.Current, timestamp, -delta, Orientation.Horizontal);
+                        OnPreviewMouseWheel(originalSource, ie);
                         break;
                     }
             }
