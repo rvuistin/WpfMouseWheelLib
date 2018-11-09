@@ -158,7 +158,9 @@ namespace Lada.Windows.MotionFlow
             // for information on timestamp seee http://msdn.microsoft.com/en-us/library/ms644939(VS.85).aspx
 
             if (timeStamp < 0)
-                throw new ArgumentOutOfRangeException ("timeStamp");
+            {
+                timeStamp = 0;
+            }
 
             if (_timeStamp >= 0)
             {
