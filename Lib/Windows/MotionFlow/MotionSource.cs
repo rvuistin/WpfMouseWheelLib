@@ -28,113 +28,56 @@ namespace Lada.Windows.MotionFlow
 
     public abstract class NativeMotionSource : MotionElementLink, INativeMotionSource
     {
-        public                      NativeMotionSource()
-        {
-            Next = NativeMotionTerminal.Current;
-        }
+        public                      NativeMotionSource() => this.Next = NativeMotionTerminal.Current;
 
-        public IMotionInfo          Source
-        {
-            get
-            {
-                return this;
-            }
-        }
-        public TimeSpan             Time
-        {
-            get
-            {
-                return TimeSpan.FromMilliseconds (_timeStamp ?? 0);
-            }
-        }
-        public TimeSpan             Delay
-        {
-            get
-            {
-                return _delay;
-            }
-            internal set
-            {
-                _delay = value;
-            }
-        }
-        public double               Velocity
-        {
-            get
-            {
-                return _velocity;
-            }
-        }
-        public double               Speed
-        {
-            get
-            {
-                return Math.Abs (_velocity);
-            }
-        }
-        public int                  Direction
-        {
-            get
-            {
-                return -_nativeDirection;
-            }
-        }
-        public bool                 DirectionChanged
-        {
-            get
-            {
-                return _previousNativeDirection != _nativeDirection;
-            }
-        }
+        public IMotionInfo          Source           => this;
+        public TimeSpan             Time             => TimeSpan.FromMilliseconds(timeStamp ?? 0);
+        public double               Speed            => Math.Abs(this.Velocity);
+        public int                  Direction        => -this.nativeDirection;
+        public bool                 DirectionChanged => this.previousNativeDirection != this.nativeDirection;
+        public TimeSpan             Delay    { get; private set; }
+        public double               Velocity { get; private set; }
         public int                  NativeDirection
         {
             get
             {
-                return _nativeDirection;
+                return this.nativeDirection;
             }
             private set
             {
-                if (_nativeDirection == value)
-                    return;
-                _previousNativeDirection = _nativeDirection;
-                _nativeDirection = value;
+                if (this.nativeDirection != value)
+                {
+                    this.previousNativeDirection = this.nativeDirection;
+                    this.nativeDirection = value;
+                }
             }
         }
         public void                 Transmit(int timeStamp, int nativeDelta)
         {
-            var info = PreTransmit (timeStamp, nativeDelta);
-            Transmit (info, nativeDelta, null);
+            var info = this.PreTransmit (timeStamp, nativeDelta);
+            this.Transmit (info, nativeDelta, null);
         }
         public void                 Transmit(IMotionInfo info, int nativeDelta, INativeMotionOutput source)
         {
-            Next.Transmit (info, nativeDelta, this);
+            this.Next.Transmit (info, nativeDelta, this);
         }
         public void                 OnCoupledTransfer(IMotionInfo info, int nativeDelta, INativeMotionTransferOutput source)
         {
-            Next.OnCoupledTransfer (info, nativeDelta, source);
+            this.Next.OnCoupledTransfer (info, nativeDelta, source);
         }
         public void                 Reset()
         {
-            Next.Reset ();
+            this.Next.Reset ();
         }
         public INativeMotionInput   Next
         {
             [DebuggerStepThrough]
-            get
-            {
-                return GetNext () as INativeMotionInput;
-            }
+            get => this.GetNext() as INativeMotionInput;
             [DebuggerStepThrough]
-            set
-            {
-                SetNext (value);
-            }
+            set => this.SetNext(value);
         }
 
-        public abstract int         NativeResolutionFrequency
-        {
-            get;
-        }
+        public abstract int         NativeResolutionFrequency { get; }
         public abstract double      NativeToNormalized(int value);
         public abstract int         NormalizedToNative(double value);
 
@@ -143,39 +86,39 @@ namespace Lada.Windows.MotionFlow
         {
             if (nativeDelta != 0)
             {
-                NativeDirection = Math.Sign (nativeDelta);
+                this.NativeDirection = Math.Sign (nativeDelta);
 
-                UpdateTimings (timeStamp);
+                this.UpdateTimings (timeStamp);
 
-                var delta = NativeToNormalized (nativeDelta);
-                UpdateVelocity (delta);
+                var delta = this.NativeToNormalized (nativeDelta);
+                this.UpdateVelocity (delta);
             }
             return this;
         }
 
         private void                UpdateTimings(long timeStamp)
         {
-            if (_timeStamp.HasValue)
+            if (this.timeStamp.HasValue)
             {
                 // fix timestamp wrapping issue (http://msdn.microsoft.com/en-us/library/ms644939(VS.85).aspx)
-                var delta = unchecked(timeStamp - _timeStamp.Value);
-                this._delay = TimeSpan.FromMilliseconds(delta);
+                var delta = unchecked(timeStamp - this.timeStamp.Value);
+                this.Delay = TimeSpan.FromMilliseconds (delta);
             }
             else
             {
-                _timeStamp = timeStamp;
+                this.timeStamp = timeStamp;
             }
         }
         private void                UpdateVelocity(double delta)
         {
-            if (_delay != TimeSpan.Zero)
-                _velocity = delta / _delay.TotalSeconds;
+            if (this.Delay != TimeSpan.Zero)
+            {
+                this.Velocity = delta / this.Delay.TotalSeconds;
+            }
         }
 
-        private long?               _timeStamp;
-        private TimeSpan            _delay = TimeSpan.Zero;
-        private int                  _previousNativeDirection;
-        private int                 _nativeDirection;
-        private double              _velocity;
+        private long?               timeStamp;
+        private int                 previousNativeDirection;
+        private int                 nativeDirection;
     }
 }
