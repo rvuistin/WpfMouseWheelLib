@@ -167,3 +167,4 @@ $RECYCLE.BIN/
 Swissdec/.Documentation/Viewgen*/
 !ICSharpCode.SharpZipLib.dll
 !failure*.log
+.vs/
