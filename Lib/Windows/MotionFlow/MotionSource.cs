@@ -96,7 +96,7 @@ namespace Lada.Windows.MotionFlow
             return this;
         }
 
-        private void                UpdateTimings(long timeStamp)
+        private void                UpdateTimings(int timeStamp)
         {
             if (this.timeStamp.HasValue)
             {
@@ -117,7 +117,7 @@ namespace Lada.Windows.MotionFlow
             }
         }
 
-        private long?               timeStamp;
+        private int?                timeStamp;
         private int                 previousNativeDirection;
         private int                 nativeDirection;
     }
