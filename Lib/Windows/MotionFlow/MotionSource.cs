@@ -44,7 +44,7 @@ namespace Lada.Windows.MotionFlow
         {
             get
             {
-                return TimeSpan.FromMilliseconds (_timeStamp);
+                return TimeSpan.FromMilliseconds (_timeStamp ?? 0);
             }
         }
         public TimeSpan             Delay
@@ -155,19 +155,16 @@ namespace Lada.Windows.MotionFlow
 
         private void                UpdateTimings(long timeStamp)
         {
-            // for information on timestamp seee http://msdn.microsoft.com/en-us/library/ms644939(VS.85).aspx
-
-            if (timeStamp < 0)
-                throw new ArgumentOutOfRangeException ("timeStamp");
-
-            if (_timeStamp >= 0)
+            if (_timeStamp.HasValue)
             {
-                // fix timestamp wrapping issue
-                if (timeStamp < _timeStamp)
-                    timeStamp += int.MaxValue;
-                _delay = TimeSpan.FromMilliseconds (timeStamp - _timeStamp);
+                // fix timestamp wrapping issue (http://msdn.microsoft.com/en-us/library/ms644939(VS.85).aspx)
+                var delta = unchecked(timeStamp - _timeStamp.Value);
+                this._delay = TimeSpan.FromMilliseconds(delta);
             }
-            _timeStamp = timeStamp;
+            else
+            {
+                _timeStamp = timeStamp;
+            }
         }
         private void                UpdateVelocity(double delta)
         {
@@ -175,7 +172,7 @@ namespace Lada.Windows.MotionFlow
                 _velocity = delta / _delay.TotalSeconds;
         }
 
-        private long                _timeStamp = -1;
+        private long?               _timeStamp;
         private TimeSpan            _delay = TimeSpan.Zero;
         private int                  _previousNativeDirection;
         private int                 _nativeDirection;
